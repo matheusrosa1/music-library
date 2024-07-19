@@ -1,48 +1,40 @@
-from multiprocessing import Value
-import re
 from bson import ObjectId
 from pydantic import BaseModel, Field
 from pymongo import ReturnDocument
 from app.database import db
-from app.main import update_song
 
 
 class Music(BaseModel):
     name: str
     artist: str
     album: str
-    release_year: str
+    release_year: int
     genre: str
     image: str
 
 
-class MusicInDB(
-    Music
-):  # Essa classe existe para manuear as musicas no banco dados, pois no MongoDB o id é retornado como um ObjectId (que trata-se de uma instancia) e não como id normal
-    id: str = Field(..., alias="_id")  # Facilitar o uso do id do banco de dados
+class MusicInDB(Music):
+    id: str = Field(alias="_id")
 
 
 class MusicLibrary:
-    _collections = db["musics"]
+    _collection = db["musics"]
 
     @classmethod
     def create(cls, music: Music):
-        cls._collections.insert_one(music.__dict__)  # ou vars(music)
+        cls._collection.insert_one(music.__dict__)  # ou vars(music)
         return "Música cadastrada com sucesso"
 
     @classmethod
     def read(cls):
-        for song in cls._collection.find():
-            MusicInDB(
-                _id=str(song.pop("_id")), **song
-            )  # coleta o id do banco de dados, remove o id e retorna o id removido, então temos em mão o id do banco de dados e esse deve ser passado como string para o MusicInDB, além do restante dos dados (que nao precisam de nenhum tratamento)
-            # [MusicInDB(_id=str(song.pop("_id")), **song) for song in cls._collection.find()] # outra forma de fazer a mesma coisa
+        return [
+            MusicInDB(_id=str(song.pop("_id")), **song)
+            for song in cls._collection.find()
+        ]  # coleta o id do banco de dados, remove o id e retorna o id removido, então temos em mão o id do banco de dados e esse deve ser passado como string para o MusicInDB, além do restante dos dados (que nao precisam de nenhum tratamento)
 
     @classmethod
     def read_one(cls, song_id: str):
-        found_song = cls._collection.find_one(
-            {"_id": ObjectId(song_id)}
-        )  # tem que procurar pelo id utilizando o _id, pois é assim que o MongoDB ele é armazenado como protegido
+        found_song = cls._collection.find_one({"_id": ObjectId(song_id)})
         if found_song is not None:
             return MusicInDB(
                 _id=str(found_song.pop("_id")), **found_song
@@ -59,7 +51,7 @@ class MusicLibrary:
         )
         if updated_song is None:
             raise ValueError("Música não encontrada")
-        return MusicInDB(_id=str(update_song.pop("_id")), **update_song)
+        return MusicInDB(_id=str(updated_song.pop("_id")), **updated_song)
 
     @classmethod
     def delete(cls, song_id: str):
