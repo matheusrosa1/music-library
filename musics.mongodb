@@ -1,0 +1,67 @@
+use('db_music');
+db.musics.insertMany([
+    {
+        name: 'Tornado Warnings',
+        artist: 'Sabrina Carpenter',
+        album: 'emails i cant send',
+        release_year: 2023,
+        genre: 'Pop',
+        image: 'images/sabrina-carpenter.jpeg',
+    },
+    {
+        name: 'Smart',
+        artist: 'LE SSERAFIM',
+        album: 'EASY',
+        release_year: 2024,
+        genre: 'Korean Pop',
+        image: 'images/le-sserafim.jpeg',
+    },
+    {
+        name: 'Karma',
+        artist: 'Taylor Swift',
+        album: 'Midnights',
+        release_year: 2022,
+        genre: 'Pop',
+        image: 'images/taylor-swift.jpeg',
+    },
+    {
+        name: 'OMG',
+        artist: 'New Jeans',
+        album: 'NWJNS',
+        release_year: 2023,
+        genre: 'Korean Pop',
+        image: 'images/new-jeans.jpg',
+    },
+    {
+        name: 'Silhouette',
+        artist: 'KANA-BOON',
+        album: 'TIME',
+        release_year: 2015,
+        genre: 'Pop',
+        image: 'images/kana-boon.jpeg',
+    },
+    {
+        name: 'Snap Out of It',
+        artist: 'Arctic Monkeys',
+        album: 'AM',
+        release_year: 2013,
+        genre: 'Rock',
+        image: 'images/arctic-monkeys.jpeg',
+    },
+    {
+        name: 'Mr. Brightside',
+        artist: 'The Killers',
+        album: 'Hot Fuss',
+        release_year: 2004,
+        genre: 'Rock',
+        image: 'images/the-killers.jpeg',
+    },
+    {
+        name: 'Interlude: Shadow',
+        artist: 'BTS',
+        album: 'Map of the Soul: 7',
+        release_year: 2020,
+        genre: 'Korean Pop',
+        image: 'images/bts.jpeg',
+    }
+])

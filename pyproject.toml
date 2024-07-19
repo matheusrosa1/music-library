@@ -1,0 +1,2 @@
+[tool.pytest.ini_options]
+env = ["DB_NAME=db_music_test"]
