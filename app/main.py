@@ -1,4 +1,3 @@
-# Aqui deve ser o ponto de entrada da aplicação
 from fastapi import FastAPI
 from random import choice
 from app.models import Music, MusicInDB, MusicLibrary
