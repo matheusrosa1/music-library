@@ -23,6 +23,7 @@ def get_random_song():
     return choice(all_songs)
 
 
+# Usar as rotas de get by id, depois das outras rotas de get, para evitar conflito de rotas, pois ele pode identificar uma palavra, como por exemplo random como um id
 @app.get("/songs/{song_id}", response_model=MusicInDB)
 def get_song_by_id(song_id: str):
     return MusicLibrary.read_one(song_id)
